@@ -1,0 +1,32 @@
+# Register a new user
+curl -X POST http://127.0.0.1:5000/auth/signup \
+     -H "Content-Type: application/json" \
+     -d '{"name": "John", "username": "john123", "password": "securepass"}'
+
+# Login to get JWT token
+curl -X POST http://127.0.0.1:5000/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"username": "john123", "password": "securepass"}'
+
+# Use the token from the login response for the following requests
+TOKEN="your_generated_jwt_token"
+
+# Add a product
+curl -X POST http://127.0.0.1:5000/products/ \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer $TOKEN" \
+     -d '{"pname": "Laptop", "description": "Gaming Laptop", "price": 1200.00, "stock": 10}'
+
+# Get all products
+curl -X GET http://127.0.0.1:5000/products/ \
+     -H "Authorization: Bearer $TOKEN"
+
+# Update a product (Replace 1 with actual product ID)
+curl -X PUT http://127.0.0.1:5000/products/1 \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer $TOKEN" \
+     -d '{"pname": "Gaming Laptop", "description": "Updated Description", "price": 1300.00, "stock": 8}'
+
+# Delete a product (Replace 1 with actual product ID)
+curl -X DELETE http://127.0.0.1:5000/products/1 \
+     -H "Authorization: Bearer $TOKEN"
